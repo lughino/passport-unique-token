@@ -1,6 +1,6 @@
 {
     "name" : "passport-unique-token",
-    "version" : "0.1.0",
+    "version" : "0.1.1",
     "description" : "Unique Token authentication strategy for Passport - modified from passport-local.",
     "author": {
         "name": "Luca Pau",
