@@ -1,13 +1,13 @@
 /* global describe, it, expect, before */
 /* jshint expr: true */
 
-var chai = require('chai')
-  , Strategy = require('../lib/strategy');
+var chai = require('chai'),
+    Strategy = require('../lib/strategy');
 
 
 describe('Strategy', function() {
     
-  describe('handling a request without a body, but no username and password, with message option to authenticate', function() {
+  describe('handling a request without a body, but no token, with message option to authenticate', function() {
     var strategy = new Strategy(function(token, done) {
       throw new Error('should not be called');
     });

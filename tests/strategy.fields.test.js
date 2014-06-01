@@ -1,15 +1,15 @@
 /* global describe, it, expect, before */
 /* jshint expr: true */
 
-var chai = require('chai')
-  , Strategy = require('../lib/strategy');
+var chai = require('chai'),
+    Strategy = require('../lib/strategy');
 
 
 describe('Strategy', function() {
     
   describe('handling a request with valid credentials in body using custom field names', function() {
-    var strategy = new Strategy({ tokenField: 'sdvoihweui3498d9vhwoufhi8h' }, function(token, done) {
-      if (token == 'sdvoihweui3498d9vhwoufhi8h') {
+    var strategy = new Strategy({ tokenField: 'uniqToken' }, function(token, done) {
+      if (token === 'sdvoihweui3498d9vhwoufhi8h') {
         return done(null, { id: '1234' }, { scope: 'read' });
       }
       return done(null, false);
@@ -27,7 +27,7 @@ describe('Strategy', function() {
         })
         .req(function(req) {
           req.body = {};
-          req.body.userid = 'sdvoihweui3498d9vhwoufhi8h';
+          req.body.uniqtoken = 'sdvoihweui3498d9vhwoufhi8h';
         })
         .authenticate();
     });
@@ -44,15 +44,15 @@ describe('Strategy', function() {
   });
   
   describe('handling a request with valid credentials in body using custom field names with object notation', function() {
-    var strategy = new Strategy({ tokenField: 'token[sdvoihweui3498d9vhwoufhi8h]' }, function(username, password, done) {
-      if (token == 'sdvoihweui3498d9vhwoufhi8h') {
+    var strategy = new Strategy({ tokenField: 'token[unique]' }, function(token, done) {
+      if (token === 'sdvoihweui3498d9vhwoufhi8h') {
         return done(null, { id: '1234' }, { scope: 'read' });
       }
       return done(null, false);
     });
     
-    var user
-      , info;
+    var user,
+        info;
     
     before(function(done) {
       chai.passport(strategy)
@@ -63,8 +63,8 @@ describe('Strategy', function() {
         })
         .req(function(req) {
           req.body = {};
-          req.body.user = {};
-          req.body.user.token = 'sdvoihweui3498d9vhwoufhi8h';
+          req.body.token = {};
+          req.body.token.unique = 'sdvoihweui3498d9vhwoufhi8h';
         })
         .authenticate();
     });

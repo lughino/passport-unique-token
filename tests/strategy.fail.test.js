@@ -47,7 +47,7 @@ describe('Strategy', function() {
         })
         .req(function(req) {
           req.body = {};
-          req.body.username = 'dfvdfiuvniu34r89234fiuodnvoin23ir90nwfoin';
+          req.body.token = 'dfvdfiuvniu34r89234fiuodnvoin23ir90nwfoin';
         })
         .authenticate();
     });

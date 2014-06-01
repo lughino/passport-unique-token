@@ -1,6 +1,6 @@
 {
     "name" : "passport-unique-token",
-    "version" : "0.1.1",
+    "version" : "0.1.2",
     "description" : "Unique Token authentication strategy for Passport - modified from passport-local.",
     "author": {
         "name": "Luca Pau",
@@ -18,13 +18,16 @@
     "devDependencies": {
         "mocha": "1.x.x",
         "chai": "1.x.x",
-        "chai-passport-strategy": "0.1.x"
+        "chai-passport-strategy": "0.1.x",
+        "gulp": "^3.6.2",
+        "gulp-jshint": "^1.6.1",
+        "istanbul": "^0.2.9"
     },
     "engines": {
         "node": ">= 0.4.0"
     },
     "scripts": {
-        "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+        "test": "make test"
     },
     "licenses" : [
         {
@@ -42,5 +45,6 @@
     "bugs": {
         "url": "https://github.com/Lughino/passport-unique-token/issues"
     },
-    "homepage": "https://github.com/Lughino/passport-unique-token"
+    "homepage": "https://github.com/Lughino/passport-unique-token",
+    "readmeFilename": "README.md"
 }
