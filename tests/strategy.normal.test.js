@@ -130,4 +130,28 @@ describe('Strategy', function() {
         });
     });
 
+    describe('handling a request with a body, but no token, and not failed options', function() {
+        var strategy = new Strategy({ failedOnMissing: false }, function(token, done) {
+            throw new Error('should not be called');
+        });
+
+        var info, status;
+
+        before(function(done) {
+            chai.passport(strategy)
+                .pass(function() {
+                    done();
+                })
+                .req(function(req) {
+                    req.body = {};
+                })
+                .authenticate();
+        });
+
+        it('should fail with info and status', function() {
+            expect(info).to.not.be.an.object;
+            expect(status).to.equal(undefined);
+        });
+    });
+
 });
