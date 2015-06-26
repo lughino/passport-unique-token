@@ -54,7 +54,8 @@ These credential locations can be configured when defining the strategy as follo
     var strategyOptions = {
         tokenQuery:    'custom-token',
         tokenParams:     'custom-token',
-        tokenField:     'custom-token'
+        tokenField:     'custom-token',
+        failedOnMissing: false
     };
 
     passport.use(new UniqueTokenStrategy(strategyOptions,
@@ -72,6 +73,8 @@ These credential locations can be configured when defining the strategy as follo
     		});
     	}
 
+`failedOnMissing` option allows you to queue multiple strategy, customizing the behavior.
+By default it is set to `true`, if set to` false` it lets move on to the next strategy on failure.
 
 ## Authenticate
 
