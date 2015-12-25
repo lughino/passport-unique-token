@@ -45,6 +45,10 @@ By default, passport-unique-token checks for `token` credentials in either the p
 
     token
 
+### Header fields
+
+    token
+
 
 ### Configure
 
@@ -55,6 +59,7 @@ These credential locations can be configured when defining the strategy as follo
         tokenQuery:    'custom-token',
         tokenParams:     'custom-token',
         tokenField:     'custom-token',
+        tokenHeader:     'custom-token',
         failedOnMissing: false
     };
 

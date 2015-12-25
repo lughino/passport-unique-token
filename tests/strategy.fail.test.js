@@ -2,18 +2,17 @@
 /* jshint expr: true */
 
 var chai = require('chai'),
-    Strategy = require('../lib/strategy');
-
+  Strategy = require('../lib/strategy');
 
 describe('Strategy', function() {
-    
+
   describe('failing authentication', function() {
     var strategy = new Strategy(function(token, done) {
       return done(null, false);
     });
-    
+
     var info;
-    
+
     before(function(done) {
       chai.passport(strategy)
         .fail(function(i) {
@@ -26,19 +25,19 @@ describe('Strategy', function() {
         })
         .authenticate();
     });
-    
+
     it('should fail', function() {
       expect(info).to.be.undefined;
     });
   });
-  
+
   describe('failing authentication with info', function() {
     var strategy = new Strategy(function(token, done) {
-      return done(null, false, { message: 'authentication failed' });
+      return done(null, false, {message: 'authentication failed'});
     });
-    
+
     var info;
-    
+
     before(function(done) {
       chai.passport(strategy)
         .fail(function(i) {
@@ -51,11 +50,11 @@ describe('Strategy', function() {
         })
         .authenticate();
     });
-    
+
     it('should fail', function() {
       expect(info).to.be.an('object');
       expect(info.message).to.equal('authentication failed');
     });
   });
-  
+
 });
