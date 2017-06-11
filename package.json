@@ -21,13 +21,15 @@
         "chai-passport-strategy": "0.1.x",
         "gulp": "^3.6.2",
         "gulp-jshint": "^1.6.1",
-        "istanbul": "^0.2.9"
+        "istanbul": "^0.2.9",
+        "cross-env": "^5.0.1"
     },
     "engines": {
         "node": ">= 0.4.0"
     },
     "scripts": {
-        "test": "make test"
+        "test": "cross-env NODE_ENV=test mocha --reporter spec -u tdd --require \"chai\" --require ./tests/bootstrap/node tests/*.test.js",
+        "lint": "gulp lint"
     },
     "licenses" : [
         {
