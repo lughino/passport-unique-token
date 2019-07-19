@@ -1,0 +1,16 @@
+{
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "globals": {
+    "jest": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier", "prettier/@typescript-eslint"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {}
+}
