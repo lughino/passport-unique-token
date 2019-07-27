@@ -19,10 +19,8 @@ prepare: &prepare
           - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
     - type: cache-restore
-        name: Restore Code Climate cache
         key: v1-code-climate-latest
     - run:
-        name: Install Code Climate reporter
         command: |
           if [[ ! -x cc-test-reporter ]]
           then
@@ -30,7 +28,6 @@ prepare: &prepare
             chmod +x ./cc-test-reporter
           fi
     - type: cache-save
-        name: Save Code Climate cache
         key: v1-code-climate-latest
         paths:
           - ./cc-test-reporter
