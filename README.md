@@ -8,6 +8,7 @@
 ![npm](https://img.shields.io/npm/v/passport-unique-token)
 ![GitHub](https://img.shields.io/github/license/Lughino/passport-unique-token)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![Known Vulnerabilities](https://snyk.io//test/github/Lughino/passport-unique-token/badge.svg?targetFile=package.json)](https://snyk.io//test/github/Lughino/passport-unique-token?targetFile=package.json)
 
 Unique token authentication strategy for Passport.
 
