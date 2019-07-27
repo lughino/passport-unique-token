@@ -119,10 +119,10 @@ jobs:
   deploy:
     working_directory: ~/project_12
     <<: *node_12
-      steps:
-        - attach_workspace:
-            at: .
-        - run: npx semantic-release
+    steps:
+      - attach_workspace:
+          at: .
+      - run: npx semantic-release
 
 workflows:
   version: 2
