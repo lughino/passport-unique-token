@@ -1,0 +1,193 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+
+skip-check: &skip-check
+  name: Check for [ci skip]
+  command: bash .circleci/early_exit.sh
+
+prepare: &prepare
+  steps:
+    - checkout
+    - run: *skip-check
+    - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+    - run: npm install
+    - save_cache:
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+    - persist_to_workspace:
+        root: .
+        paths:
+          - node_modules
+
+build: &build
+  steps:
+    - checkout
+    - attach_workspace:
+        at: .
+    - run: npm run build
+    - persist_to_workspace:
+        root: .
+        paths:
+          - build
+
+test: &test
+  steps:
+    - checkout
+    - attach_workspace:
+        at: .
+    - run: npm run coverage
+    - store_artifacts:
+        path: coverage
+        prefix: coverage
+    - store_test_results:
+        path: coverage/test-results
+
+lint: &lint
+  steps:
+    - checkout
+    - attach_workspace:
+        at: .
+    - run: npm run lint
+
+node_8: &node_8
+  docker:
+    - image: circleci/node:8.16.0
+
+node_10: &node_10
+  docker:
+    - image: circleci/node:10.16.0
+
+node_12: &node_12
+  docker:
+    - image: circleci/node:12.7.0
+
+version: 2.1
+jobs:
+  prepare_8:
+    working_directory: ~/project_8
+    <<: *node_8
+    <<: *prepare
+  prepare_10:
+    working_directory: ~/project_10
+    <<: *node_10
+    <<: *prepare
+  prepare_12:
+    working_directory: ~/project_12
+    <<: *node_12
+    <<: *prepare
+  build_8:
+    working_directory: ~/project_8
+    <<: *node_8
+    <<: *build
+  build_10:
+    working_directory: ~/project_10
+    <<: *node_10
+    <<: *build
+  build_12:
+    working_directory: ~/project_12
+    <<: *node_12
+    <<: *build
+  test_8:
+    working_directory: ~/project_8
+    <<: *node_8
+    <<: *test
+  test_10:
+    working_directory: ~/project_10
+    <<: *node_10
+    <<: *test
+  test_12:
+    working_directory: ~/project_12
+    <<: *node_12
+    <<: *test
+  lint_8:
+    working_directory: ~/project_8
+    <<: *node_8
+    <<: *lint
+  lint_10:
+    working_directory: ~/project_10
+    <<: *node_10
+    <<: *lint
+  lint_12:
+    working_directory: ~/project_12
+    <<: *node_12
+    <<: *lint
+  deploy-github:
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - deploy:
+          name: Deploy to GitHub Pages
+          command: |
+            set -e
+            remote=$(git config remote.origin.url)
+            if [ ! -d "build" ]
+            then
+                echo "build folder not found"
+                exit 1
+            fi
+            mkdir gh-pages-branch
+            cd gh-pages-branch
+            git config --global user.email "$GH_EMAIL" > /dev/null 2>&1
+            git config --global user.name "$GH_NAME" > /dev/null 2>&1
+            git init
+            git remote add --fetch origin "$remote"
+            if git rev-parse --verify origin/gh-pages > /dev/null 2>&1
+            then
+                git checkout gh-pages
+                git rm -rf .
+            else
+                git checkout --orphan gh-pages
+            fi
+            cp -a "../build/." .
+            git add -A
+            git commit --allow-empty -m "Deploy to GitHub pages [ci skip]"
+            git push --force --quiet origin gh-pages > /dev/null 2>&1
+            cd ..
+            rm -rf gh-pages-branch
+            echo "Finished GitHub pages Deployment!"
+workflows:
+  version: 2
+  build_accept_deploy:
+    jobs:
+      - prepare_8
+      - lint_8:
+          requires:
+            - prepare_8
+      - test_8:
+          requires:
+            - lint_8
+      - build_8:
+          requires:
+            - test_8
+      - prepare_10
+      - lint_10:
+          requires:
+            - prepare_10
+      - test_10:
+          requires:
+            - lint_10
+      - build_10:
+          requires:
+            - test_10
+      - prepare_12
+      - lint_12:
+          requires:
+            - prepare_12
+      - test_12:
+          requires:
+            - lint_12
+      - build_12:
+          requires:
+            - test_12
+      # - deploy-github:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #     requires:
+      #       - test

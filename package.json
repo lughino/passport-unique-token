@@ -13,7 +13,6 @@
     "url": "git://github.com/Lughino/passport-unique-token"
   },
   "dependencies": {
-    "npm": "^6.10.2",
     "passport-strategy": "^1.0.0"
   },
   "devDependencies": {
@@ -42,12 +41,13 @@
     "typescript": "^3.5.3"
   },
   "engines": {
-    "node": ">= 4.x.x"
+    "node": ">= 8.x.x"
   },
   "scripts": {
+    "build": "tsc",
+    "coverage": "npm t -- --reporters=jest-junit --reporters=default",
     "lint": "eslint src/**/*.ts --fix",
-    "test": "jest --detectOpenHandles",
-    "tsc": "tsc"
+    "test": "jest --detectOpenHandles"
   },
   "license": "MIT",
   "keywords": [
