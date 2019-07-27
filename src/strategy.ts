@@ -56,6 +56,7 @@ export interface UniqueTokenAuthenticateOptions {
  *   - `tokenHeader`  header name where the token is found, defaults to 'token'
  *   - `passReqToCallback`  when `true`, `req` is the first argument to the verify callback (default: `false`)
  *   - `failOnMissing`  when `false`, if the token is not found it will not fail (default: `true`)
+ *   - `caseSensitive`  when `true` the token validation is case Sensitive (default: `false`)
  *
  * Examples:
  *
