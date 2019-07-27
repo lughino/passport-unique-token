@@ -21,22 +21,20 @@ prepare: &prepare
     - persist_to_workspace:
         root: .
         paths:
-          - node_modules
+          - ./*
 
 build: &build
   steps:
-    - checkout
     - attach_workspace:
         at: .
     - run: npm run build
     - persist_to_workspace:
         root: .
         paths:
-          - build
+          - ./*
 
 test: &test
   steps:
-    - checkout
     - attach_workspace:
         at: .
     - run: npm run coverage
@@ -45,10 +43,13 @@ test: &test
         prefix: coverage
     - store_test_results:
         path: coverage/test-results
+    - persist_to_workspace:
+        root: .
+        paths:
+          - ./*
 
 lint: &lint
   steps:
-    - checkout
     - attach_workspace:
         at: .
     - run: npm run lint
@@ -152,7 +153,7 @@ jobs:
   #           echo "Finished GitHub pages Deployment!"
 workflows:
   version: 2
-  build_accept_deploy:
+  build_and_deploy:
     jobs:
       - prepare_8
       - lint_8:
@@ -160,19 +161,21 @@ workflows:
             - prepare_8
       - test_8:
           requires:
-            - lint_8
+            - prepare_8
       - build_8:
           requires:
             - test_8
+            - lint_8
       - prepare_10
       - lint_10:
           requires:
             - prepare_10
       - test_10:
           requires:
-            - lint_10
+            - prepare_10
       - build_10:
           requires:
+            - lint_10
             - test_10
       - prepare_12
       - lint_12:
@@ -180,9 +183,10 @@ workflows:
             - prepare_12
       - test_12:
           requires:
-            - lint_12
+            - prepare_12
       - build_12:
           requires:
+            - lint_12
             - test_12
       # - deploy-github:
       #     filters:
