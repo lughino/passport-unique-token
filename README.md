@@ -1,5 +1,14 @@
 # Passport Unique Token Strategy
 
+[![CircleCI](https://circleci.com/gh/Lughino/passport-unique-token.svg?style=svg)](https://circleci.com/gh/Lughino/passport-unique-token)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6cbbdc635903006b578e/maintainability)](https://codeclimate.com/github/Lughino/passport-unique-token/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/6cbbdc635903006b578e/test_coverage)](https://codeclimate.com/github/Lughino/passport-unique-token/test_coverage)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2ec6c1319b6497494303ee024e45cb5)](https://www.codacy.com/app/Lughino/passport-unique-token?utm_source=github.com&utm_medium=referral&utm_content=Lughino/passport-unique-token&utm_campaign=Badge_Grade)
+![npm](https://img.shields.io/npm/dm/passport-unique-token)
+![npm](https://img.shields.io/npm/v/passport-unique-token)
+![GitHub](https://img.shields.io/github/license/Lughino/passport-unique-token)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
 Unique token authentication strategy for Passport.
 
 ## Installation
@@ -112,15 +121,3 @@ function authenticate(req, res, next) {
 ## Credits
 
 [Luca Pau](http://github.com/Lughino)
-
-## License
-
-(The MIT License)
-
-Copyright (c) 2019 Luca Pau
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

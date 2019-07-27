@@ -18,6 +18,22 @@ prepare: &prepare
         paths:
           - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
+    - type: cache-restore
+        name: Restore Code Climate cache
+        key: v1-code-climate-latest
+    - run:
+        name: Install Code Climate reporter
+        command: |
+          if [[ ! -x cc-test-reporter ]]
+          then
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+          fi
+    - type: cache-save
+        name: Save Code Climate cache
+        key: v1-code-climate-latest
+        paths:
+          - ./cc-test-reporter
     - persist_to_workspace:
         root: .
         paths:
@@ -116,6 +132,34 @@ jobs:
     working_directory: ~/project_12
     <<: *node_12
     <<: *lint
+  code_cov_before:
+    working_directory: ~/project_12
+    <<: *node_12
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Report code coverage to Code Climate Before
+          command: |
+            ./cc-test-reporter before-build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
+  code_cov_after:
+    working_directory: ~/project_12
+    <<: *node_12
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Report code coverage to Code Climate format
+          command: |
+            ./cc-test-reporter format-coverage ./coverage/lcov.info --input-type lcov
+      - run:
+          name: Report code coverage to Code Climate After
+          command: |
+            ./cc-test-reporter after-build -t simplecov --exit-code $? || true
   deploy:
     working_directory: ~/project_12
     <<: *node_12
@@ -151,6 +195,9 @@ workflows:
             - lint_10
             - test_10
       - prepare_12
+      - code_cov_before:
+          requires:
+            - prepare_12
       - lint_12:
           requires:
             - prepare_12
@@ -161,6 +208,9 @@ workflows:
           requires:
             - lint_12
             - test_12
+      - code_cov_after:
+          requires:
+            - build_12
       - deploy:
           filters:
             branches:
