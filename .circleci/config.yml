@@ -18,19 +18,21 @@ prepare: &prepare
         paths:
           - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
-    - type: cache-restore
-        key: v1-code-climate-latest
+    - restore_cache:
+        keys:
+          - v1-code-climate-latest
     - run:
+        name: Install Code Climate reporter
         command: |
           if [[ ! -x cc-test-reporter ]]
           then
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
           fi
-    - type: cache-save
-        key: v1-code-climate-latest
+    - save_cache:
         paths:
           - ./cc-test-reporter
+        key: v1-code-climate-latest
     - persist_to_workspace:
         root: .
         paths:
