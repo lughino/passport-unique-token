@@ -1,4 +1,4 @@
-export function lookup(obj, field: string): string | null {
+export function lookup(obj: any, field: string): string | null {
   if (!obj) {
     return null;
   }

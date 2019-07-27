@@ -2,14 +2,31 @@ import { Strategy } from 'passport-strategy';
 import express from 'express';
 import { lookup } from './utils';
 
-type DoneCallback = (err: Error, user: unknown, info: unknown) => void;
-type Verify = (req?: express.Request | string, token?: string | DoneCallback, done?: DoneCallback) => void;
+type DoneCallback = (err: Error | null, user?: unknown, info?: unknown) => void;
+export interface VerifyFunctionWithRequest {
+  (req: express.Request, token: string, done: DoneCallback): void;
+}
+export interface VerifyFunction {
+  (token: string, done: DoneCallback): void;
+}
 export interface UniqueTokenOptions {
+  [key: string]: any;
   tokenField?: string;
   tokenQuery?: string;
   tokenParams?: string;
   tokenHeader?: string;
-  passReqToCallback?: boolean;
+  passReqToCallback?: false;
+  caseSensitive?: boolean;
+  failOnMissing?: boolean;
+}
+
+export interface UniqueTokenOptionsWithRequest {
+  [key: string]: any;
+  tokenField?: string;
+  tokenQuery?: string;
+  tokenParams?: string;
+  tokenHeader?: string;
+  passReqToCallback: true;
   caseSensitive?: boolean;
   failOnMissing?: boolean;
 }
@@ -50,11 +67,12 @@ export interface UniqueTokenAuthenticateOptions {
  *       }
  *     ));
  *
- * @param {Object} options
- * @param {Function} verify
+ * @param {UniqueTokenOptions | UniqueTokenOptionsWithRequest} options
+ * @param {VerifyFunction | VerifyFunctionWithRequest} verify
  * @api public
  */
 export class UniqueTokenStrategy extends Strategy {
+  public name = 'token';
   private defaultToken = 'token';
   private tokenField: string;
   private tokenQuery: string;
@@ -62,9 +80,12 @@ export class UniqueTokenStrategy extends Strategy {
   private tokenHeader: string;
   private failOnMissing: boolean;
   private passReqToCallback: boolean;
-  private verify: Verify;
+  private verify: any;
 
-  public constructor(options: UniqueTokenOptions, verify: Verify) {
+  public constructor(options: UniqueTokenOptionsWithRequest, verify: VerifyFunctionWithRequest);
+  public constructor(options: UniqueTokenOptions, verify: VerifyFunction);
+  public constructor(verify: VerifyFunction);
+  public constructor(options: any, verify?: any) {
     super();
     if (typeof options === 'function') {
       verify = options;
@@ -80,7 +101,7 @@ export class UniqueTokenStrategy extends Strategy {
     this.tokenHeader = this.sanitizeToken(options, 'tokenHeader');
     this.failOnMissing = typeof options.failOnMissing !== 'undefined' ? !!options.failOnMissing : true;
     this.verify = verify;
-    this.passReqToCallback = options.passReqToCallback;
+    this.passReqToCallback = !!options.passReqToCallback;
   }
 
   public authenticate(req: express.Request, options: UniqueTokenAuthenticateOptions = {}): void {
@@ -96,27 +117,25 @@ export class UniqueTokenStrategy extends Strategy {
         : this.pass();
     }
 
+    const verifiedCallback = (err: Error, user: any, info: any): void => {
+      if (err) {
+        return this.error(err);
+      }
+      if (!user) {
+        return this.fail(info);
+      }
+
+      return this.success(user, info);
+    };
+
     try {
-      return this.passReqToCallback
-        ? this.verify(req, token, this.verifiedCallback)
-        : this.verify(token, this.verifiedCallback);
+      return this.passReqToCallback ? this.verify(req, token, verifiedCallback) : this.verify(token, verifiedCallback);
     } catch (e) {
       return this.error(e);
     }
   }
 
-  private verifiedCallback(err: Error, user: any, info: any): void {
-    if (err) {
-      return this.error(err);
-    }
-    if (!user) {
-      return this.fail(info);
-    }
-
-    return this.success(user, info);
-  }
-
-  private sanitizeToken(options: UniqueTokenOptions, optionsField: string): string {
+  private sanitizeToken(options: UniqueTokenOptions | UniqueTokenOptionsWithRequest, optionsField: string): string {
     const token = options[optionsField];
     if (!token) return this.defaultToken;
 

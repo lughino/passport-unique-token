@@ -13,5 +13,6 @@ node_modules
 
 .idea/
 .history
+.vscode
 
 .DS_Store
