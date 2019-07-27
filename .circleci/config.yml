@@ -65,7 +65,7 @@ node_12: &node_12
   docker:
     - image: circleci/node:12.7.0
 
-version: 2.1
+version: 2
 jobs:
   prepare_8:
     working_directory: ~/project_8
