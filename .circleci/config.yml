@@ -158,7 +158,7 @@ jobs:
       - run:
           name: Report code coverage to Code Climate After
           command: |
-            ./cc-test-reporter after-build -t simplecov --exit-code $? || true
+            ./cc-test-reporter after-build --exit-code $? || true
   deploy:
     working_directory: ~/project_12
     <<: *node_12
