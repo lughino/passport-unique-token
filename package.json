@@ -8,6 +8,7 @@
     "url": "http://github.com/Lughino/"
   },
   "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/Lughino/passport-unique-token"
@@ -41,11 +42,12 @@
     "typescript": "^3.5.3"
   },
   "engines": {
-    "node": ">= 8.x.x"
+    "node": ">= 8.10.x"
   },
   "scripts": {
-    "build": "tsc",
-    "coverage": "npm t -- --reporters=jest-junit --reporters=default",
+    "build": "tsc -p tsconfig.prod.json",
+    "commit": "git cz",
+    "coverage": "npm t -- --coverage --reporters=default --reporters=jest-junit",
     "lint": "eslint src/**/*.ts --fix",
     "test": "jest --detectOpenHandles"
   },

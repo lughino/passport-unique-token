@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "declaration": true,
+    "declarationDir": "./dist",
     "esModuleInterop": true,
-    "target": "es6",
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "target": "es2017",
     "moduleResolution": "node",
     "sourceMap": true,
     "typeRoots": ["./node_modules/@types", "./@types"],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "outDir": "dist",
-    "isolatedModules": true
+    "outDir": "dist"
   },
   "lib": ["es2015"],
   "include": ["src"]

@@ -9,6 +9,8 @@ lib-cov
 coverage
 build/Release
 
+dist/
+
 node_modules
 
 .idea/
