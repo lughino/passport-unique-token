@@ -1,4 +1,5 @@
-dist/README.md
+@types/
+README.md
 src
 tests
 .eslintrc.json
@@ -6,6 +7,7 @@ tests
 jest.config.js
 .editorconfig
 coverage
+config
 .git
 .git/
 .github/
@@ -20,3 +22,9 @@ yarn.lock
 CONTRIBUTING.md
 .dockerignore
 Dockerfile
+.codeclimate.yml
+cc-test-reporter
+release.config.js
+renovate.json
+tsconfig.json
+tsconfig.prod.json
