@@ -13,7 +13,7 @@ prepare: &prepare
     - restore_cache:
         keys:
           - v1-dependencies-{{ checksum "package.json" }}
-    - run: npm install
+    - run: npm ci
     - save_cache:
         paths:
           - node_modules
@@ -155,6 +155,13 @@ jobs:
           name: Report code coverage to Code Climate After
           command: |
             ./cc-test-reporter after-build --exit-code $? || true
+  wait_builds:
+    <<: *node_12
+    steps:
+      - run:
+          name: Noop
+          command: |
+            echo "No Operation"
   deploy:
     working_directory: ~/project_12
     <<: *node_12
@@ -206,13 +213,16 @@ workflows:
       - code_cov_after:
           requires:
             - build_12
+      - wait_builds:
+          requires:
+            - build_8
+            - build_10
+            - build_12
+            - code_cov_after
       - deploy:
           filters:
             branches:
               only:
                 - master
           requires:
-            - build_8
-            - build_10
-            - build_12
-            - code_cov_after
+            - wait_builds
