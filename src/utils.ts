@@ -1,4 +1,4 @@
-export function lookup(obj: any, field: string): string | null {
+export const lookup = (obj: any, field: string): string | null => {
   if (!obj) {
     return null;
   }
@@ -7,7 +7,7 @@ export function lookup(obj: any, field: string): string | null {
     .join('')
     .split('[');
   for (let i = 0, x; (x = chain[i]); ++i) {
-    let prop = obj[x];
+    const prop = obj[x];
     if (typeof prop === 'undefined') {
       return null;
     }
@@ -17,4 +17,4 @@ export function lookup(obj: any, field: string): string | null {
     obj = prop;
   }
   return null;
-}
+};

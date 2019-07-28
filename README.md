@@ -20,29 +20,37 @@ npm install passport-unique-token
 
 ## Usage
 
-The unique token authentication strategy authenticates users with a unique token. The strategy requires a _verify_ callback, which accepts these credentials and calls done providing a user.
+The unique token authentication strategy authenticates users with a unique token.  
+The strategy requires a _verify_ callback, which accepts these credentials and calls done providing a user.
 
 ```javascript
 const { UniqueTokenStrategy } = require('passport-unique-token');
 
 passport.use(
   new UniqueTokenStrategy((token, done) => {
-    User.findOne({ uniqueToken: token, expireToken: { $gt: Date.now() } }, (err, user) => {
-      if (err) {
-        return done(err);
-      }
+    User.findOne(
+      {
+        uniqueToken: token,
+        expireToken: { $gt: Date.now() },
+      },
+      (err, user) => {
+        if (err) {
+          return done(err);
+        }
 
-      if (!user) {
-        return done(null, false);
-      }
+        if (!user) {
+          return done(null, false);
+        }
 
-      return done(null, user);
-    });
+        return done(null, user);
+      },
+    );
   }),
 );
 ```
 
-By default `passport-unique-token` checks for `token` key credentials in either the params url or request body in these locations:
+By default `passport-unique-token` checks for `token` key credentials  
+in either the params url or request body in these locations:
 
 | Type   | Default property |
 | ------ | :--------------: |
@@ -67,7 +75,10 @@ const strategyOptions = {
 
 passport.use(new UniqueTokenStrategy(strategyOptions,
   (token, done) => {
-    User.findOne({ uniqueToken: token, expireToken: { $gt: Date.now() } }, (err, user) => {
+    User.findOne({
+      uniqueToken: token,
+      expireToken: { $gt: Date.now() }
+    }, (err, user) => {
       if (err) {
         return done(err);
       }
@@ -82,7 +93,8 @@ passport.use(new UniqueTokenStrategy(strategyOptions,
 ```
 
 `failOnMissing` option allows you to queue multiple strategy, customizing the behavior.
-By default it's set to `true`, when it's set to `false` it lets move on to the next strategy on failure.
+By default it's set to `true`, when it's set to `false`  
+it lets move on to the next strategy on failure.
 
 ## How to Authenticate
 
@@ -96,7 +108,8 @@ app.put('/animals/dogs', passport.authenticate('token'), (req, res) => {
 });
 ```
 
-If authentication fails in the above example then a `401` response will be given. However there may be times you wish a bit more control and delegate the failure to your application:
+If authentication fails in the above example then a `401` response will be given.  
+However there may be times you wish a bit more control and delegate the failure to your application:
 
 ```javascript
 app.put('/animals/dogs', authenticate, (req, res) => {
@@ -126,18 +139,26 @@ function authenticate(req, res, next) {
 
 ### `UniqueTokenStrategy()`
 
-The token authentication strategy authenticates requests based on the credentials submitted through standard request headers, body, querystring or params.
+The token authentication strategy authenticates requests based on the credentials  
+submitted through standard request headers, body, querystring or params.
 
 ```typescript
 new UniqueTokenStrategy(
   options?: {
-    tokenField?: string, // default `'token'`, the token field name in the body request
-    tokenQuery?: string, // default `'token'`, the token field name in the query string request
-    tokenParams?: string, // default `'token'`, the token field name in the param request
-    tokenHeader?: string, // default `'token'`, the token field name in the header request
-    passReqToCallback?: false, // when `true` the express.Request object is the first parameter of the verify callback
-    caseSensitive?: boolean, // default `false`, when `true` the token key is case sensitive (e.g. res.body['uniqueToken'])
-    failOnMissing?: boolean // default `false`, allows you to queue multiple strategy, customizing the behavior.
+    // the token field name in the body request
+    tokenField?: string = 'token',
+    // the token field name in the query string request
+    tokenQuery?: string = 'token',
+    // the token field name in the param request
+    tokenParams?: string = 'token',
+    // the token field name in the header request
+    tokenHeader?: string = 'token',
+    // if `true` the express.Request is the first parameter of the verify callback
+    passReqToCallback?: false,
+    // if `true` the token key is case sensitive (e.g. res.body['uniqueToken'])
+    caseSensitive?: false,
+    // allows you to queue multiple strategy, customizing the behavior.
+    failOnMissing?: true
   },
   verify: (
     req?: express.Request,
@@ -149,7 +170,8 @@ new UniqueTokenStrategy(
 
 ### `authenticate()`
 
-You can optionally pass options to the `authenticate()` method. Please refer to the [passport documentation](http://www.passportjs.org/docs/authenticate/) for the different signature.
+You can optionally pass options to the `authenticate()` method.  
+Please refer to the [passport documentation](http://www.passportjs.org/docs/authenticate/) for the different signature.
 
 ```typescript
 authenticate(

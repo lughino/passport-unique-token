@@ -34,6 +34,8 @@ export interface UniqueTokenAuthenticateOptions {
   badRequestMessage?: string;
 }
 
+const BAD_REQUEST = 400;
+
 /**
  * `Strategy` class.
  *
@@ -73,8 +75,8 @@ export interface UniqueTokenAuthenticateOptions {
  * @api public
  */
 export class UniqueTokenStrategy extends Strategy {
-  public name = 'token';
-  private defaultToken = 'token';
+  public name: string = 'token';
+  private defaultToken: string = 'token';
   private tokenField: string;
   private tokenQuery: string;
   private tokenParams: string;
@@ -114,7 +116,7 @@ export class UniqueTokenStrategy extends Strategy {
 
     if (!token) {
       return this.failOnMissing
-        ? this.fail({ message: options.badRequestMessage || 'Missing credentials' }, 400)
+        ? this.fail({ message: options.badRequestMessage || 'Missing credentials' }, BAD_REQUEST)
         : this.pass();
     }
 
