@@ -106,16 +106,22 @@ jobs:
   build_12:
     working_directory: ~/project_12
     <<: *node_12
-    <<: *build
     steps:
+      - attach_workspace:
+          at: .
+      - run: npm run build
       - run:
-        name: Report code coverage to Code Climate format
-        command: |
-          ./cc-test-reporter format-coverage ./coverage/lcov.info --input-type lcov
+          name: Report code coverage to Code Climate format
+          command: |
+            ./cc-test-reporter format-coverage ./coverage/lcov.info --input-type lcov
       - run:
           name: Report code coverage to Code Climate After
           command: |
             ./cc-test-reporter after-build --exit-code $? || true
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
   test_8:
     working_directory: ~/project_8
     <<: *node_8
