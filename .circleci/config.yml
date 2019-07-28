@@ -107,14 +107,15 @@ jobs:
     working_directory: ~/project_12
     <<: *node_12
     <<: *build
-        - run:
-          name: Report code coverage to Code Climate format
+    steps:
+      - run:
+        name: Report code coverage to Code Climate format
+        command: |
+          ./cc-test-reporter format-coverage ./coverage/lcov.info --input-type lcov
+      - run:
+          name: Report code coverage to Code Climate After
           command: |
-            ./cc-test-reporter format-coverage ./coverage/lcov.info --input-type lcov
-        - run:
-            name: Report code coverage to Code Climate After
-            command: |
-              ./cc-test-reporter after-build --exit-code $? || true
+            ./cc-test-reporter after-build --exit-code $? || true
   test_8:
     working_directory: ~/project_8
     <<: *node_8
