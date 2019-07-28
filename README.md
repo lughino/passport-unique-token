@@ -21,7 +21,8 @@ npm install passport-unique-token
 ## Usage
 
 The unique token authentication strategy authenticates users with a unique token.
-The strategy requires a _verify_ callback, which accepts these credentials and calls done providing a user.
+The strategy requires a _verify_ callback,
+which accepts these credentials and calls done providing a user.
 
 ```javascript
 const { UniqueTokenStrategy } = require('passport-unique-token');
@@ -93,7 +94,7 @@ passport.use(new UniqueTokenStrategy(strategyOptions,
 ```
 
 `failOnMissing` option allows you to queue multiple strategy, customizing the behavior.
-By default it's set to `true`, when it's set to `false`  
+By default it's set to `true`, when it's set to `false`
 it lets move on to the next strategy on failure.
 
 ## How to Authenticate
@@ -109,7 +110,8 @@ app.put('/animals/dogs', passport.authenticate('token'), (req, res) => {
 ```
 
 If authentication fails in the above example then a `401` response will be given.
-However there may be times you wish a bit more control and delegate the failure to your application:
+However there may be times you wish a bit more control and delegate
+the failure to your application:
 
 ```javascript
 app.put('/animals/dogs', authenticate, (req, res) => {
@@ -171,7 +173,8 @@ new UniqueTokenStrategy(
 ### `authenticate()`
 
 You can optionally pass options to the `authenticate()` method.
-Please refer to the [passport documentation](http://www.passportjs.org/docs/authenticate/) for the different signature.
+Please refer to the [passport documentation](http://www.passportjs.org/docs/authenticate/)
+for the different signature.
 
 ```typescript
 authenticate(
