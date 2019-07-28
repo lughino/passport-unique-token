@@ -61,7 +61,7 @@ test: &test
     - persist_to_workspace:
         root: .
         paths:
-          - ./*
+          - ./coverage/*
 
 lint: &lint
   steps:
@@ -141,10 +141,6 @@ jobs:
           name: Report code coverage to Code Climate Before
           command: |
             ./cc-test-reporter before-build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./*
   code_cov_after:
     working_directory: ~/project_12
     <<: *node_12
