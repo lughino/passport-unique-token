@@ -46,7 +46,7 @@ build: &build
     - persist_to_workspace:
         root: .
         paths:
-          - ./*
+          - ./dist/*
 
 test: &test
   steps:
@@ -106,22 +106,7 @@ jobs:
   build_12:
     working_directory: ~/project_12
     <<: *node_12
-    steps:
-      - attach_workspace:
-          at: .
-      - run: npm run build
-      - run:
-          name: Report code coverage to Code Climate format
-          command: |
-            ./cc-test-reporter format-coverage ./coverage/lcov.info --input-type lcov
-      - run:
-          name: Report code coverage to Code Climate After
-          command: |
-            ./cc-test-reporter after-build --exit-code $? || true
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./*
+    <<: *build
   test_8:
     working_directory: ~/project_8
     <<: *node_8
@@ -215,16 +200,18 @@ workflows:
       - lint_12:
           requires:
             - prepare_12
+            - code_cov_before
       - test_12:
           requires:
             - prepare_12
+            - code_cov_before
       - build_12:
           requires:
             - lint_12
             - test_12
-      # - code_cov_after:
-      #     requires:
-      #       - build_12
+      - code_cov_after:
+          requires:
+            - build_12
       - deploy:
           filters:
             branches:
@@ -234,4 +221,4 @@ workflows:
             - build_8
             - build_10
             - build_12
-            # - code_cov_after
+            - code_cov_after
