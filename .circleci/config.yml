@@ -196,11 +196,9 @@ workflows:
       - lint_12:
           requires:
             - prepare_12
-            - code_cov_before
       - test_12:
           requires:
             - prepare_12
-            - code_cov_before
       - build_12:
           requires:
             - lint_12
