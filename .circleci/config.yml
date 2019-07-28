@@ -156,7 +156,7 @@ jobs:
           command: |
             ./cc-test-reporter after-build --exit-code $? || true
   wait_builds:
-    <<: *node_12
+    <<: *node_8
     steps:
       - run:
           name: Noop
