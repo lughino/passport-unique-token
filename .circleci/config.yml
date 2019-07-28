@@ -155,19 +155,13 @@ jobs:
           name: Report code coverage to Code Climate After
           command: |
             ./cc-test-reporter after-build --exit-code $? || true
-  wait_builds:
-    <<: *node_8
-    steps:
-      - run:
-          name: Noop
-          command: |
-            echo "No Operation"
   deploy:
     working_directory: ~/project_12
     <<: *node_12
     steps:
       - attach_workspace:
           at: .
+      - run: sleep 60;
       - run: npx semantic-release
 
 workflows:
@@ -213,16 +207,11 @@ workflows:
       - code_cov_after:
           requires:
             - build_12
-      - wait_builds:
-          requires:
-            - build_8
-            - build_10
-            - build_12
-            - code_cov_after
       - deploy:
           filters:
             branches:
               only:
                 - master
           requires:
-            - wait_builds
+            - build_12
+            - code_cov_after
