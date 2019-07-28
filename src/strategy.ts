@@ -75,8 +75,8 @@ const BAD_REQUEST = 400;
  * @api public
  */
 export class UniqueTokenStrategy extends Strategy {
-  public name: string = 'token';
-  private defaultToken: string = 'token';
+  public name = 'token';
+  private defaultToken = 'token';
   private tokenField: string;
   private tokenQuery: string;
   private tokenParams: string;

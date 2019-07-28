@@ -20,7 +20,7 @@ npm install passport-unique-token
 
 ## Usage
 
-The unique token authentication strategy authenticates users with a unique token.  
+The unique token authentication strategy authenticates users with a unique token.
 The strategy requires a _verify_ callback, which accepts these credentials and calls done providing a user.
 
 ```javascript
@@ -49,7 +49,7 @@ passport.use(
 );
 ```
 
-By default `passport-unique-token` checks for `token` key credentials  
+By default `passport-unique-token` checks for `token` key credentials
 in either the params url or request body in these locations:
 
 | Type   | Default property |
@@ -108,7 +108,7 @@ app.put('/animals/dogs', passport.authenticate('token'), (req, res) => {
 });
 ```
 
-If authentication fails in the above example then a `401` response will be given.  
+If authentication fails in the above example then a `401` response will be given.
 However there may be times you wish a bit more control and delegate the failure to your application:
 
 ```javascript
@@ -139,7 +139,7 @@ function authenticate(req, res, next) {
 
 ### `UniqueTokenStrategy()`
 
-The token authentication strategy authenticates requests based on the credentials  
+The token authentication strategy authenticates requests based on the credentials
 submitted through standard request headers, body, querystring or params.
 
 ```typescript
@@ -170,7 +170,7 @@ new UniqueTokenStrategy(
 
 ### `authenticate()`
 
-You can optionally pass options to the `authenticate()` method.  
+You can optionally pass options to the `authenticate()` method.
 Please refer to the [passport documentation](http://www.passportjs.org/docs/authenticate/) for the different signature.
 
 ```typescript
@@ -182,7 +182,9 @@ authenticate(
 
 // Example:
 
-app.post('/login', passport.authenticate('token', { badRequestMessage: 'custom error message' }));
+app.post('/login', passport.authenticate('token', {
+  badRequestMessage: 'custom error message'
+}));
 ```
 
 ## Credits
