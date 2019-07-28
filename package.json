@@ -1,50 +1,103 @@
 {
-    "name" : "passport-unique-token",
-    "version" : "0.1.4",
-    "description" : "Unique Token authentication strategy for Passport - modified from passport-local.",
-    "author": {
-        "name": "Luca Pau",
-        "email": "luca.pau82@gmail.com",
-        "url": "http://github.com/Lughino/"
+  "name": "passport-unique-token",
+  "version": "0.1.4",
+  "description": "Unique Token authentication strategy for Passport.",
+  "author": {
+    "name": "Luca Pau",
+    "email": "luca.pau82@gmail.com",
+    "url": "http://github.com/Lughino/"
+  },
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lughino/passport-unique-token"
+  },
+  "dependencies": {
+    "passport-strategy": "^1.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/prompt-cli": "^8.1.0",
+    "@types/express": "^4.17.0",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.6.8",
+    "@types/passport-strategy": "^0.2.35",
+    "@types/supertest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^1.12.0",
+    "@typescript-eslint/parser": "^1.12.0",
+    "body-parser": "^1.19.0",
+    "chai-passport-strategy": "^1.0.1",
+    "commitizen": "^4.0.2",
+    "cross-env": "^5.2.0",
+    "cz-customizable": "^6.2.0",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.1",
+    "express": "^4.17.1",
+    "husky": "^3.0.1",
+    "jest": "^24.8.0",
+    "jest-junit": "^6.4.0",
+    "lint-staged": "^9.2.0",
+    "passport": "^0.4.0",
+    "prettier": "^1.18.2",
+    "semantic-release": "^15.13.18",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
+  },
+  "engines": {
+    "node": ">= 8.10.x"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.prod.json",
+    "commit": "git cz",
+    "coverage": "npm t -- --coverage --reporters=default --reporters=jest-junit",
+    "lint": "eslint src/**/*.ts --fix",
+    "test": "jest --detectOpenHandles",
+    "semantic-release": "semantic-release"
+  },
+  "license": "MIT",
+  "keywords": [
+    "passport",
+    "token",
+    "auth",
+    "authentication"
+  ],
+  "bugs": {
+    "url": "https://github.com/Lughino/passport-unique-token/issues"
+  },
+  "homepage": "https://github.com/Lughino/passport-unique-token",
+  "readmeFilename": "README.md",
+  "lint-staged": {
+    "src/**/*.(ts|tsx)": [
+      "prettier --write",
+      "npm run lint",
+      "npm t -- --findRelatedTests",
+      "git add"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-customizable"
     },
-    "main" : "lib/index.js",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/Lughino/passport-unique-token"
-    },
-    "dependencies": {
-        "passport-strategy": "1.x.x"
-    },
-    "devDependencies": {
-        "mocha": "1.x.x",
-        "chai": "1.x.x",
-        "chai-passport-strategy": "0.1.x",
-        "gulp": "^3.6.2",
-        "gulp-jshint": "^1.6.1",
-        "istanbul": "^0.2.9"
-    },
-    "engines": {
-        "node": ">= 0.4.0"
-    },
-    "scripts": {
-        "test": "make test"
-    },
-    "licenses" : [
-        {
-            "type" : "MIT",
-            "url" : "http://www.opensource.org/licenses/MIT"
-        }
-    ],
-    "keywords" : [
-        "passport",
-        "token",
-        "auth",
-        "authn",
-        "authentication"
-    ],
-    "bugs": {
-        "url": "https://github.com/Lughino/passport-unique-token/issues"
-    },
-    "homepage": "https://github.com/Lughino/passport-unique-token",
-    "readmeFilename": "README.md"
+    "cz-customizable": {
+      "config": "config/cz-customizable/base.js"
+    }
+  },
+  "jest-junit": {
+    "output": "./coverage/test-results/junit/results.xml"
+  }
 }
