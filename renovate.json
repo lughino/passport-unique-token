@@ -1,6 +1,5 @@
 {
+  "rangeStrategy": "replace",
   "semanticCommits": true,
-  "extends": [
-    "config:base"
-  ]
+  "extends": ["config:base"]
 }
