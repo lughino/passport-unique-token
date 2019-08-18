@@ -71,7 +71,7 @@ lint: &lint
 
 node_8: &node_8
   docker:
-    - image: circleci/node:8.16.0
+    - image: circleci/node:8.16.1
 
 node_10: &node_10
   docker:
