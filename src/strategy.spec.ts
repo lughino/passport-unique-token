@@ -5,8 +5,10 @@ import { Request } from 'express';
 
 describe('UniqueTokenStrategy', (): void => {
   it('should thrown an error when no verify callback is passed', (): void => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore ts(2554)
     expect((): void => new UniqueTokenStrategy()).toThrowError(TypeError);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore ts(2554)
     expect((): void => new UniqueTokenStrategy()).toThrowError(
       /token authentication strategy requires a verify function/i,

@@ -30,7 +30,7 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       ),
     );
     app.get('/post', (req: any, res: any, next: any): void =>
-      passport.authenticate('uniqueToken', (err, passportUser, info): void => {
+      passport.authenticate('uniqueToken', (err, passportUser): void => {
         if (err) {
           return next(err);
         }
@@ -62,7 +62,7 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       ),
     );
     app.get('/post', (req: any, res: any, next: any): void =>
-      passport.authenticate('uniqueToken', (err, passportUser, info): void => {
+      passport.authenticate('uniqueToken', (err, passportUser): void => {
         if (err) {
           return next(err);
         }
@@ -191,7 +191,7 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       }),
     );
     app.get('/post', (req: any, res: any, next: any): void =>
-      passport.authenticate('uniqueToken', (err, passportUser, info): void => {
+      passport.authenticate('uniqueToken', (err, passportUser): void => {
         if (!passportUser) {
           return res.status(400).json({ message: 'user not found' });
         }

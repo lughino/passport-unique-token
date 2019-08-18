@@ -3,7 +3,6 @@ import { lookup } from './utils';
 describe('Utils', (): void => {
   describe('lookup method', (): void => {
     it('should return null when object is not provided', (): void => {
-      // @ts-ignore ts(2345)
       expect(lookup(undefined, 'token')).toBeNull();
     });
 
