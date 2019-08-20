@@ -57,6 +57,7 @@
     "coverage": "npm t -- --coverage --reporters=default --reporters=jest-junit",
     "lint": "eslint src/**/*.ts --fix",
     "test": "jest --detectOpenHandles",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles",
     "semantic-release": "semantic-release"
   },
   "license": "MIT",
