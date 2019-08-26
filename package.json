@@ -100,6 +100,7 @@
     }
   },
   "jest-junit": {
-    "output": "./coverage/test-results/junit/results.xml"
+    "outputDirectory": "./coverage/test-results/junit",
+    "outputName": "results.xml"
   }
 }
