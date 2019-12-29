@@ -75,7 +75,7 @@ node_8: &node_8
 
 node_10: &node_10
   docker:
-    - image: circleci/node:10.16.3
+    - image: circleci/node:10.18.0
 
 node_12: &node_12
   docker:
