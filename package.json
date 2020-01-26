@@ -76,8 +76,7 @@
     "src/**/*.(ts|tsx)": [
       "prettier --write",
       "npm run lint",
-      "npm t -- --findRelatedTests",
-      "git add"
+      "npm t -- --findRelatedTests"
     ]
   },
   "commitlint": {
