@@ -1,14 +1,14 @@
 # Passport Unique Token Strategy
 
-[![CircleCI](https://circleci.com/gh/Lughino/passport-unique-token.svg?style=svg)](https://circleci.com/gh/Lughino/passport-unique-token)
-[![Maintainability](https://api.codeclimate.com/v1/badges/6cbbdc635903006b578e/maintainability)](https://codeclimate.com/github/Lughino/passport-unique-token/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/6cbbdc635903006b578e/test_coverage)](https://codeclimate.com/github/Lughino/passport-unique-token/test_coverage)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2ec6c1319b6497494303ee024e45cb5)](https://www.codacy.com/app/Lughino/passport-unique-token?utm_source=github.com&utm_medium=referral&utm_content=Lughino/passport-unique-token&utm_campaign=Badge_Grade)
+[![CircleCI](https://circleci.com/gh/lughino/passport-unique-token.svg?style=svg)](https://circleci.com/gh/lughino/passport-unique-token)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6cbbdc635903006b578e/maintainability)](https://codeclimate.com/github/lughino/passport-unique-token/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/6cbbdc635903006b578e/test_coverage)](https://codeclimate.com/github/lughino/passport-unique-token/test_coverage)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2ec6c1319b6497494303ee024e45cb5)](https://www.codacy.com/app/lughino/passport-unique-token?utm_source=github.com&utm_medium=referral&utm_content=lughino/passport-unique-token&utm_campaign=Badge_Grade)
 ![npm](https://img.shields.io/npm/dm/passport-unique-token)
 ![npm](https://img.shields.io/npm/v/passport-unique-token)
-![GitHub](https://img.shields.io/github/license/Lughino/passport-unique-token)
+![GitHub](https://img.shields.io/github/license/lughino/passport-unique-token)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Known Vulnerabilities](https://snyk.io//test/github/Lughino/passport-unique-token/badge.svg?targetFile=package.json)](https://snyk.io//test/github/Lughino/passport-unique-token?targetFile=package.json)
+[![Known Vulnerabilities](https://snyk.io//test/github/lughino/passport-unique-token/badge.svg?targetFile=package.json)](https://snyk.io//test/github/lughino/passport-unique-token?targetFile=package.json)
 
 Unique token authentication strategy for Passport.
 
@@ -192,4 +192,4 @@ app.post('/login', passport.authenticate('token', {
 
 ## Credits
 
-[Luca Pau](http://github.com/Lughino)
+[Luca Pau](http://github.com/lughino)
