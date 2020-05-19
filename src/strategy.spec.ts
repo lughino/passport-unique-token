@@ -16,7 +16,7 @@ describe('UniqueTokenStrategy', (): void => {
   });
 
   it('should expose name prop', (): void => {
-    const strategy = new UniqueTokenStrategy((): void => {});
+    const strategy = new UniqueTokenStrategy((): void => undefined);
     expect(strategy.name).toBe('token');
   });
 

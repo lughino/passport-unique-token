@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { NextFunction, Request, Response, Express } from 'express';
 import passport from 'passport';
 import bodyParser from 'body-parser';
 import request from 'supertest';
 import { UniqueTokenStrategy } from '.';
 
 describe('UniqueTokenStrategy E2E test', (): void => {
-  let app: any;
+  let app: Express;
   beforeEach((): void => {
     app = express();
     app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,7 +29,7 @@ describe('UniqueTokenStrategy E2E test', (): void => {
         },
       ),
     );
-    app.get('/post', (req: any, res: any, next: any): void =>
+    app.get('/post', (req: Request, res: Response, next: NextFunction): void =>
       passport.authenticate('uniqueToken', (err, passportUser): void => {
         if (err) {
           return next(err);
@@ -61,7 +61,7 @@ describe('UniqueTokenStrategy E2E test', (): void => {
         },
       ),
     );
-    app.get('/post', (req: any, res: any, next: any): void =>
+    app.get('/post', (req: Request, res: Response, next: NextFunction): void =>
       passport.authenticate('uniqueToken', (err, passportUser): void => {
         if (err) {
           return next(err);
@@ -93,14 +93,14 @@ describe('UniqueTokenStrategy E2E test', (): void => {
         },
       ),
     );
-    app.get('/post/:uniquetoken', (req: any, res: any, next: any): void =>
+    app.get('/post/:uniquetoken', (req: Request, res: Response, next: NextFunction): void =>
       passport.authenticate('uniqueToken', (err, passportUser, info): void => {
         if (err) {
           return next(err);
         }
         if (!passportUser) {
           console.log('info', info);
-          return res.status(400).json(info);
+          return void res.status(400).json(info);
         }
 
         res.status(200).json({ user: passportUser });
@@ -129,14 +129,14 @@ describe('UniqueTokenStrategy E2E test', (): void => {
         },
       ),
     );
-    app.post('/post', (req: any, res: any, next: any): void =>
+    app.post('/post', (req: Request, res: Response, next: NextFunction): void =>
       passport.authenticate('uniqueToken', (err, passportUser, info): void => {
         if (err) {
           return next(err);
         }
         if (!passportUser) {
           console.log('info', info);
-          return res.status(400).json(info);
+          return void res.status(400).json(info);
         }
 
         res.status(200).json({ user: passportUser });
@@ -162,10 +162,10 @@ describe('UniqueTokenStrategy E2E test', (): void => {
         },
       ),
     );
-    app.get('/post', (req: any, res: any, next: any): void =>
+    app.get('/post', (req: Request, res: Response, next: NextFunction): void =>
       passport.authenticate('uniqueToken', (err, passportUser, info): void => {
         if (!passportUser) {
-          return res.status(400).json(info);
+          return void res.status(400).json(info);
         }
 
         res.status(200).json({ user: passportUser });
@@ -190,10 +190,10 @@ describe('UniqueTokenStrategy E2E test', (): void => {
         done(null, uniqueToken === token);
       }),
     );
-    app.get('/post', (req: any, res: any, next: any): void =>
+    app.get('/post', (req: Request, res: Response, next: NextFunction): void =>
       passport.authenticate('uniqueToken', (err, passportUser): void => {
         if (!passportUser) {
-          return res.status(400).json({ message: 'user not found' });
+          return void res.status(400).json({ message: 'user not found' });
         }
 
         res.status(200).json({ user: passportUser });
