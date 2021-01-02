@@ -16,7 +16,7 @@ describe('UniqueTokenStrategy E2E test', (): void => {
     passport.unuse('uniqueToken');
   });
 
-  it('should execute it properly with the header', (): Promise<void> => {
+  it('should execute it properly with the header', async (): Promise<void> => {
     const token = '1234-43636-2342-12414-1234235';
     const user = { id: '123-456', name: 'test' };
     passport.use(
@@ -38,16 +38,11 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       })(req, res, next),
     );
 
-    return request(app)
-      .get('/post')
-      .set('uniqueToken', token)
-      .expect(200)
-      .then((res: any): void => {
-        expect(res.body.user).toEqual(user);
-      });
+    const res_1 = await request(app).get('/post').set('uniqueToken', token).expect(200);
+    expect(res_1.body.user).toEqual(user);
   });
 
-  it('should execute it properly with the query', (): Promise<void> => {
+  it('should execute it properly with the query', async (): Promise<void> => {
     const token = '1234-43636-2342-12414-1234235';
     const user = { id: '123-456', name: 'test' };
     passport.use(
@@ -71,15 +66,11 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       })(req, res, next),
     );
 
-    return request(app)
-      .get(`/post?uniquetoken=${token}`)
-      .expect(200)
-      .then((res: any): void => {
-        expect(res.body.user).toEqual(user);
-      });
+    const res_1 = await request(app).get(`/post?uniquetoken=${token}`).expect(200);
+    expect(res_1.body.user).toEqual(user);
   });
 
-  it('should execute it properly with the param', (): Promise<void> => {
+  it('should execute it properly with the param', async (): Promise<void> => {
     const token = '1234-43636-2342-12414-1234235';
     const user = { id: '123-456', name: 'test' };
     passport.use(
@@ -107,15 +98,11 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       })(req, res, next),
     );
 
-    return request(app)
-      .get(`/post/${token}`)
-      .expect(200)
-      .then((res: any): void => {
-        expect(res.body.user).toEqual(user);
-      });
+    const res_1 = await request(app).get(`/post/${token}`).expect(200);
+    expect(res_1.body.user).toEqual(user);
   });
 
-  it('should execute it properly with the body', (): Promise<void> => {
+  it('should execute it properly with the body', async (): Promise<void> => {
     const token = '1234-43636-2342-12414-1234235';
     const user = { id: '123-456', name: 'test' };
     passport.use(
@@ -143,16 +130,11 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       })(req, res, next),
     );
 
-    return request(app)
-      .post(`/post`)
-      .send({ uniquetoken: token })
-      .expect(200)
-      .then((res: any): void => {
-        expect(res.body.user).toEqual(user);
-      });
+    const res_1 = await request(app).post(`/post`).send({ uniquetoken: token }).expect(200);
+    expect(res_1.body.user).toEqual(user);
   });
 
-  it('should fail for missing credential', (): Promise<void> => {
+  it('should fail for missing credential', async (): Promise<void> => {
     passport.use(
       'uniqueToken',
       new UniqueTokenStrategy(
@@ -172,15 +154,11 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       })(req, res, next),
     );
 
-    return request(app)
-      .get('/post')
-      .expect(400)
-      .then((res: any): void => {
-        expect(res.body.message).toEqual('Missing credentials');
-      });
+    const res_1 = await request(app).get('/post').expect(400);
+    expect(res_1.body.message).toEqual('Missing credentials');
   });
 
-  it('should fail for user not found in the db', (): Promise<void> => {
+  it('should fail for user not found in the db', async (): Promise<void> => {
     const wrongToken = '1234-45454-23422-1234235';
     const token = '1234-43636-2342-12414-1234235';
     passport.use(
@@ -200,12 +178,7 @@ describe('UniqueTokenStrategy E2E test', (): void => {
       })(req, res, next),
     );
 
-    return request(app)
-      .get('/post')
-      .set('uniqueToken', wrongToken)
-      .expect(400)
-      .then((res: any): void => {
-        expect(res.body.message).toEqual('user not found');
-      });
+    const res_1 = await request(app).get('/post').set('uniqueToken', wrongToken).expect(400);
+    expect(res_1.body.message).toEqual('user not found');
   });
 });
