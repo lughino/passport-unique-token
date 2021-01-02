@@ -3,13 +3,10 @@ import express from 'express';
 import { lookup } from './utils';
 
 type DoneCallback = (err: Error | null, user?: unknown, info?: unknown) => void;
-export interface VerifyFunctionWithRequest {
-  (req: express.Request, token: string, done: DoneCallback): void;
-}
-export interface VerifyFunction {
-  (token: string, done: DoneCallback): void;
-}
+export type VerifyFunctionWithRequest = (req: express.Request, token: string, done: DoneCallback) => void;
+export type VerifyFunction = (token: string, done: DoneCallback) => void;
 export interface UniqueTokenOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
   tokenField?: string;
   tokenQuery?: string;
@@ -21,6 +18,7 @@ export interface UniqueTokenOptions {
 }
 
 export interface UniqueTokenOptionsWithRequest {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
   tokenField?: string;
   tokenQuery?: string;
@@ -83,12 +81,15 @@ export class UniqueTokenStrategy extends Strategy {
   private tokenHeader: string;
   private failOnMissing: boolean;
   private passReqToCallback: boolean;
-  private verify: any;
+  private verify: VerifyFunctionWithRequest | VerifyFunction;
 
   public constructor(options: UniqueTokenOptionsWithRequest, verify: VerifyFunctionWithRequest);
   public constructor(options: UniqueTokenOptions, verify: VerifyFunction);
   public constructor(verify: VerifyFunction);
-  public constructor(options: any, verify?: any) {
+  public constructor(
+    options: UniqueTokenOptionsWithRequest | UniqueTokenOptions | VerifyFunctionWithRequest | VerifyFunction,
+    verify?: VerifyFunctionWithRequest | VerifyFunction,
+  ) {
     super();
     if (typeof options === 'function') {
       verify = options;
@@ -120,19 +121,21 @@ export class UniqueTokenStrategy extends Strategy {
         : this.pass();
     }
 
-    const verifiedCallback = (err: Error, user: any, info: any): void => {
+    const verifiedCallback: DoneCallback = (err, user, info) => {
       if (err) {
         return this.error(err);
       }
       if (!user) {
-        return this.fail(info);
+        return this.fail(info, 401);
       }
 
       return this.success(user, info);
     };
 
     try {
-      return this.passReqToCallback ? this.verify(req, token, verifiedCallback) : this.verify(token, verifiedCallback);
+      return this.passReqToCallback
+        ? (this.verify as VerifyFunctionWithRequest)(req, token, verifiedCallback)
+        : (this.verify as VerifyFunction)(token, verifiedCallback);
     } catch (e) {
       return this.error(e);
     }
