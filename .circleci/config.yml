@@ -71,7 +71,7 @@ lint: &lint
 
 node_10: &node_10
   docker:
-    - image: circleci/node:10.23.0
+    - image: circleci/node:10.23.1
 
 node_12: &node_12
   docker:
