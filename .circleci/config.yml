@@ -69,71 +69,51 @@ lint: &lint
         at: .
     - run: npm run lint
 
-node_10: &node_10
-  docker:
-    - image: circleci/node:10.24.1
-
-node_12: &node_12
-  docker:
-    - image: circleci/node:12.22.1
-
 node_14: &node_14
   docker:
-    - image: circleci/node:14.16.1
+    - image: circleci/node:14.17.3
+
+node_16: &node_16
+  docker:
+    - image: circleci/node:16.4.2
 
 version: 2
 jobs:
-  prepare_10:
-    working_directory: ~/project_10
-    <<: *node_10
-    <<: *prepare
-  prepare_12:
-    working_directory: ~/project_12
-    <<: *node_12
-    <<: *prepare
   prepare_14:
     working_directory: ~/project_14
     <<: *node_14
     <<: *prepare
-  build_10:
-    working_directory: ~/project_10
-    <<: *node_10
-    <<: *build
-  build_12:
-    working_directory: ~/project_12
-    <<: *node_12
-    <<: *build
+  prepare_16:
+    working_directory: ~/project_16
+    <<: *node_16
+    <<: *prepare
   build_14:
     working_directory: ~/project_14
     <<: *node_14
     <<: *build
-  test_10:
-    working_directory: ~/project_10
-    <<: *node_10
-    <<: *test
-  test_12:
-    working_directory: ~/project_12
-    <<: *node_12
-    <<: *test
+  build_16:
+    working_directory: ~/project_16
+    <<: *node_16
+    <<: *build
   test_14:
     working_directory: ~/project_14
     <<: *node_14
     <<: *test
-  lint_10:
-    working_directory: ~/project_10
-    <<: *node_10
-    <<: *lint
-  lint_12:
-    working_directory: ~/project_12
-    <<: *node_12
-    <<: *lint
+  test_16:
+    working_directory: ~/project_16
+    <<: *node_16
+    <<: *test
   lint_14:
     working_directory: ~/project_14
     <<: *node_14
     <<: *lint
+  lint_16:
+    working_directory: ~/project_16
+    <<: *node_16
+    <<: *lint
   code_cov_before:
-    working_directory: ~/project_14
-    <<: *node_14
+    working_directory: ~/project_16
+    <<: *node_16
     steps:
       - attach_workspace:
           at: .
@@ -142,8 +122,8 @@ jobs:
           command: |
             ./cc-test-reporter before-build
   code_cov_after:
-    working_directory: ~/project_14
-    <<: *node_14
+    working_directory: ~/project_16
+    <<: *node_16
     steps:
       - attach_workspace:
           at: .
@@ -156,8 +136,8 @@ jobs:
           command: |
             ./cc-test-reporter after-build --exit-code $? || true
   deploy:
-    working_directory: ~/project_14
-    <<: *node_14
+    working_directory: ~/project_16
+    <<: *node_16
     steps:
       - attach_workspace:
           at: .
@@ -168,32 +148,7 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - prepare_10
-      - lint_10:
-          requires:
-            - prepare_10
-      - test_10:
-          requires:
-            - prepare_10
-      - build_10:
-          requires:
-            - lint_10
-            - test_10
-      - prepare_12
-      - lint_12:
-          requires:
-            - prepare_12
-      - test_12:
-          requires:
-            - prepare_12
-      - build_12:
-          requires:
-            - lint_12
-            - test_12
       - prepare_14
-      - code_cov_before:
-          requires:
-            - prepare_14
       - lint_14:
           requires:
             - prepare_14
@@ -202,16 +157,30 @@ workflows:
             - prepare_14
       - build_14:
           requires:
-            - test_14
             - lint_14
+            - test_14
+      - prepare_16
+      - code_cov_before:
+          requires:
+            - prepare_16
+      - lint_16:
+          requires:
+            - prepare_16
+      - test_16:
+          requires:
+            - prepare_16
+      - build_16:
+          requires:
+            - test_16
+            - lint_16
       - code_cov_after:
           requires:
-            - build_14
+            - build_16
       - deploy:
           filters:
             branches:
               only:
                 - master
           requires:
-            - build_14
+            - build_16
             - code_cov_after
