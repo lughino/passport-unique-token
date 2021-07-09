@@ -4,7 +4,6 @@
   "description": "Unique Token authentication strategy for Passport.",
   "author": {
     "name": "Luca Pau",
-    "email": "luca.pau82@gmail.com",
     "url": "http://github.com/lughino/"
   },
   "main": "dist/index.js",
