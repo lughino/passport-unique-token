@@ -71,11 +71,11 @@ lint: &lint
 
 node_14: &node_14
   docker:
-    - image: circleci/node:14.17.6
+    - image: circleci/node:17.2.0
 
 node_16: &node_16
   docker:
-    - image: circleci/node:16.4.2
+    - image: circleci/node:17.2.0
 
 version: 2
 jobs:
