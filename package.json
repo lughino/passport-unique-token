@@ -28,7 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "body-parser": "^1.19.0",
-    "chai-passport-strategy": "^1.0.1",
+    "chai-passport-strategy": "^3.0.0",
     "commitizen": "^4.2.4",
     "cross-env": "^7.0.3",
     "cz-customizable": "^6.3.0",
